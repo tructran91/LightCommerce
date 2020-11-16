@@ -1,41 +1,41 @@
-﻿using LightCommerce.Application.Categories.Queries.Dtos;
-using LightCommerce.Application.Common.Exceptions;
+﻿using LightCommerce.Application.Common.Exceptions;
 using LightCommerce.Application.Common.Interfaces.Repositories;
 using LightCommerce.Domain.Entities;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace LightCommerce.Application.Categories.Queries
+namespace LightCommerce.Application.Categories.Commands.DeleteCategory
 {
-    public class GetCategoryByIdQuery : IRequest<CategoryDto>
+    public class DeleteCategoryDto : IRequest<int>
     {
         public int Id { get; set; }
 
-        public GetCategoryByIdQuery(int id)
+        public DeleteCategoryDto(int id)
         {
             Id = id;
         }
     }
 
-    public class GetCategoryByIdHandle : IRequestHandler<GetCategoryByIdQuery, CategoryDto>
+    public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryDto, int>
     {
         private readonly ICategoryRepository _categoryRepository;
 
-        public GetCategoryByIdHandle(ICategoryRepository categoryRepository)
+        public DeleteCategoryHandler(ICategoryRepository categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<CategoryDto> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
+        public async Task<int> Handle(DeleteCategoryDto request, CancellationToken cancellationToken)
         {
             var category = await _categoryRepository.GetByIdAsync(request.Id);
+
             if (category == null)
             {
                 throw new NotFoundException(nameof(Category), request.Id);
             }
-
-            return new CategoryDto() { Id = category.Id, Name = category.Name };
+            await _categoryRepository.DeleteAsync(category);
+            return category.Id;
         }
     }
 }

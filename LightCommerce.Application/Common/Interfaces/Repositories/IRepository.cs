@@ -29,8 +29,8 @@ namespace LightCommerce.Application.Common.Interfaces.Repositories
 
         Task AddRangeAsync(IEnumerable<TEntity> entities);
 
-        Task Update(TEntity entityToUpdate);
+        Task UpdateAsync(TEntity entityToUpdate);
 
-        Task Delete(TEntity entityToDelete);
+        Task DeleteAsync(TEntity entityToDelete);
     }
 }

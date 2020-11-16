@@ -25,9 +25,12 @@ namespace LightCommerce.Infrastructure
 
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<IProductRepository, ProductRepository>();
 
             services.AddMemoryCache();
             services.AddSingleton<IMemoryCacheManager, MemoryCacheManager>();
+
+            //services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
 
             return services;
         }

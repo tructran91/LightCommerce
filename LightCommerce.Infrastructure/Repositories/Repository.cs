@@ -81,13 +81,13 @@ namespace LightCommerce.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task Update(TEntity entityToUpdate)
+        public async Task UpdateAsync(TEntity entityToUpdate)
         {
             _context.Entry(entityToUpdate).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
 
-        public async Task Delete(TEntity entityToDelete)
+        public async Task DeleteAsync(TEntity entityToDelete)
         {
             _dbSet.Remove(entityToDelete);
             await _context.SaveChangesAsync();
